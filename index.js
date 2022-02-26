@@ -41,6 +41,7 @@ app.post('/tes', upload, async (req, res) => {
     res.send('tes');
 })
 
+const port = process.env.PORT || 3000
 app.listen(3000, () => {
     console.log(`Running....`);
 })
