@@ -25,12 +25,12 @@ const upload = multer({
 }).single('file')
 
 app.post('/tes', upload, async (req, res) => {
-    const result = await cloudinary.uploader.upload(req.file.path, {
+    /* const result = await cloudinary.uploader.upload(req.file.path, {
         folder: 'uploads',
         use_filename: true,
         unique_filename: false
-    })
-    console.log(result);
+    }) */
+    console.log(req.file);
     res.send('tes');
 })
 
