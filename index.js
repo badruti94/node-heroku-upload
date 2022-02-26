@@ -31,6 +31,9 @@ const upload = multer({
     storage
 }).single('file')
 
+app.get('/', (req, res) => {
+    res.end('tes')
+})
 app.post('/tes', upload, async (req, res) => {
     const result = await cloudinary.uploader.upload(req.file.path, {
         folder: 'uploads',
