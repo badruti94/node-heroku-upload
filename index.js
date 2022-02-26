@@ -4,11 +4,10 @@ const multer = require('multer')
 const cloudinary = require('cloudinary').v2
 require('dotenv').config()
 const cors = require('cors')
+const DatauriParser = require('datauri/parser')
+const path = require('path')
 
 const app = express()
-
-
-const storage = multer.memoryStorage()
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -20,18 +19,22 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 app.use(cors())
+
+
+const parser = new DatauriParser()
+const storage = multer.memoryStorage()
 const upload = multer({
     storage
 }).single('file')
 
 app.post('/tes', upload, async (req, res) => {
-    /* const result = await cloudinary.uploader.upload(req.file.path, {
+    const file = parser.format(path.extname(req.file.originalname).toString(), req.file.buffer).content
+    const result = await cloudinary.uploader.upload(file, {
         folder: 'uploads',
         use_filename: true,
         unique_filename: false
-    }) */
-    console.log(req.file);
-    res.send('tes');
+    })
+    res.json(result)
 })
 
 const port = process.env.PORT || 3000
